@@ -16,4 +16,6 @@ public interface SMMSIpService {
     int removeSMMSIp(SMMSIp smmsIp);
 
     List<SMMSIp> findSMMSIpByUserId(Integer userId);
+
+    SMMSIp findSMMSIp(SMMSIp smmsIp);
 }

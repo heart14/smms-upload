@@ -14,4 +14,6 @@ public interface SMMSIpDao {
 
     List<SMMSIp> selectSMMSIpByUserId(Integer userId);
 
+    SMMSIp selectSMMSIp(SMMSIp smmsIp);
+
 }

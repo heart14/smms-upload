@@ -30,6 +30,11 @@ public class SMMSIpServiceImpl implements SMMSIpService {
     }
 
     @Override
+    public SMMSIp findSMMSIp(SMMSIp smmsIp) {
+        return smmsIpDao.selectSMMSIp(smmsIp);
+    }
+
+    @Override
     public List<SMMSIp> findSMMSIpByUserId(Integer userId) {
         return smmsIpDao.selectSMMSIpByUserId(userId);
     }

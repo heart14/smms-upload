@@ -2,9 +2,11 @@ package com.heart.smmsupload.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.heart.smmsupload.pojo.SMMSImage;
+import com.heart.smmsupload.pojo.SMMSIp;
 import com.heart.smmsupload.pojo.SMMSUser;
 import com.heart.smmsupload.response.SMMSResponse;
 import com.heart.smmsupload.service.SMMSImageService;
+import com.heart.smmsupload.service.SMMSIpService;
 import com.heart.smmsupload.util.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +47,9 @@ public class ImgController {
     @Autowired
     private SMMSImageService smmsImageService;
 
+    @Autowired
+    private SMMSIpService smmsIpService;
+
     /**
      * 图片上传 支持批量上传
      *
@@ -83,6 +88,7 @@ public class ImgController {
         //上传至sm.ms
         logger.info("上传至http://sm.ms");
         String resp = "";
+        String tempIp = "";
         List<Map<String, String>> data = new ArrayList<>();
         for (File tempfile : list) {
             resp = HttpUtils.doPostImage(uploadApiUrl, tempfile);
@@ -100,6 +106,8 @@ public class ImgController {
                 String hash = JSONObject.parseObject(JSONObject.parseObject(resp).getString("data")).getString("hash");
                 long timestamp = JSONObject.parseObject(JSONObject.parseObject(resp).getString("data")).getLong("timestamp");
                 String ip = JSONObject.parseObject(JSONObject.parseObject(resp).getString("data")).getString("ip");
+
+                tempIp = ip;
 
                 smmsImage.setFilename(filename);
                 smmsImage.setStorename(storename);
@@ -136,6 +144,13 @@ public class ImgController {
         }
         smmsResponse.setMsg("图片上传完毕， 共" + list.size() + "， 失败" + failNum);
         smmsResponse.setData(data);
+
+        SMMSIp smmsIp = new SMMSIp();
+        smmsIp.setUserId(smmsUser.getUserId());
+        smmsIp.setUserIp(tempIp);
+        if (smmsIpService.findSMMSIp(smmsIp) == null) {
+            smmsIpService.saveSMMSIp(smmsIp);
+        }
 
         //清理本地缓存文件
         boolean delete = false;
