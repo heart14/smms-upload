@@ -77,6 +77,10 @@ public class ImgController {
         logger.info("建立临时文件缓存");
         for (MultipartFile multipartFile : multipartFiles) {
             try {
+                File targetDir = new File(imgPath);
+                if (!targetDir.exists()) {
+                    targetDir.mkdirs();
+                }
                 file = new File(imgPath + "\\" + multipartFile.getOriginalFilename());
                 multipartFile.transferTo(file);
                 list.add(file);
