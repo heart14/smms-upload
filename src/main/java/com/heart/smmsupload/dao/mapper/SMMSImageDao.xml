@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heart.smmsupload.dao.SMMSImageDao">
+
+    <resultMap id="BaseResultMap" type="com.heart.smmsupload.pojo.SMMSImage">
+        <id column="image_id" jdbcType="INTEGER" property="imageId"/>
+        <result column="filename" jdbcType="VARCHAR" property="filename"/>
+        <result column="storename" jdbcType="VARCHAR" property="storename"/>
+        <result column="size" jdbcType="INTEGER" property="size"/>
+        <result column="width" jdbcType="INTEGER" property="width"/>
+        <result column="height" jdbcType="INTEGER" property="height"/>
+        <result column="hash" jdbcType="VARCHAR" property="hash"/>
+        <result column="delete_url" jdbcType="VARCHAR" property="deleteUrl"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="msg" jdbcType="VARCHAR" property="msg"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_ip" jdbcType="VARCHAR" property="userIp"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        image_id, filename, storename, size, width, height, hash, delete_url, url, path,
+        msg, status, user_id, user_ip, create_time, update_time
+    </sql>
+
+    <select id="selectSMMSImageByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from smms_image
+        where image_id = #{imageId,jdbcType=INTEGER}
+        and status = 0
+    </select>
+
+    <select id="selectSMMSImageListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from smms_image
+        where user_id = #{userId,jdbcType=INTEGER}
+        and status = 0
+    </select>
+
+    <delete id="deleteSMMSImageByPrimaryKey" parameterType="java.lang.Integer">
+        delete from smms_image
+        where image_id = #{imageId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertSMMSImage" parameterType="com.heart.smmsupload.pojo.SMMSImage">
+        insert into smms_image
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageId != null">
+                image_id,
+            </if>
+            <if test="filename != null">
+                filename,
+            </if>
+            <if test="storename != null">
+                storename,
+            </if>
+            <if test="size != null">
+                size,
+            </if>
+            <if test="width != null">
+                width,
+            </if>
+            <if test="height != null">
+                height,
+            </if>
+            <if test="hash != null">
+                hash,
+            </if>
+            <if test="deleteUrl != null">
+                delete_url,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="path != null">
+                path,
+            </if>
+            <if test="msg != null">
+                msg,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userIp != null">
+                user_ip,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageId != null">
+                #{imageId,jdbcType=INTEGER},
+            </if>
+            <if test="filename != null">
+                #{filename,jdbcType=VARCHAR},
+            </if>
+            <if test="storename != null">
+                #{storename,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                #{size,jdbcType=INTEGER},
+            </if>
+            <if test="width != null">
+                #{width,jdbcType=INTEGER},
+            </if>
+            <if test="height != null">
+                #{height,jdbcType=INTEGER},
+            </if>
+            <if test="hash != null">
+                #{hash,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteUrl != null">
+                #{deleteUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="msg != null">
+                #{msg,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userIp != null">
+                #{userIp,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateSMMSImageByPrimaryKey" parameterType="com.heart.smmsupload.pojo.SMMSImage">
+        update smms_image
+        <set>
+            <if test="filename != null">
+                filename = #{filename,jdbcType=VARCHAR},
+            </if>
+            <if test="storename != null">
+                storename = #{storename,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                size = #{size,jdbcType=INTEGER},
+            </if>
+            <if test="width != null">
+                width = #{width,jdbcType=INTEGER},
+            </if>
+            <if test="height != null">
+                height = #{height,jdbcType=INTEGER},
+            </if>
+            <if test="hash != null">
+                hash = #{hash,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteUrl != null">
+                delete_url = #{deleteUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                path = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="msg != null">
+                msg = #{msg,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userIp != null">
+                user_ip = #{userIp,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where image_id = #{imageId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateSMMSImageByUserId" parameterType="java.lang.Integer">
+        update smms_image
+        set status = 2, update_time = now()
+        where user_id = #{userId,jdbcType=INTEGER}
+        and status = 0
+    </update>
+
+
+</mapper>

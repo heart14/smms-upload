@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heart.smmsupload.dao.SMMSUserDao">
+
+    <resultMap id="BaseResultMap" type="com.heart.smmsupload.pojo.SMMSUser">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id, username, password
+    </sql>
+
+    <select id="selectSMMSUserByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from smms_user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectSMMSUser" parameterType="com.heart.smmsupload.pojo.SMMSUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from smms_user
+        where username = #{username,jdbcType=VARCHAR}
+        and password = #{password,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteSMMSUserByPrimaryKey" parameterType="java.lang.Integer">
+        delete from smms_user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertSMMSUser" parameterType="com.heart.smmsupload.pojo.SMMSUser">
+        insert into smms_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateSMMSUserByPrimaryKey" parameterType="com.heart.smmsupload.pojo.SMMSUser">
+        update smms_user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+</mapper>

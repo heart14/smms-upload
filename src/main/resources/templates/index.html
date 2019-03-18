@@ -10,13 +10,45 @@
     <h1>SM.MS图床</h1>
     <hr>
 
-    <a href="/uploadindex">
-        <button>图片上传</button>
-    </a>
-    <a href="/historyindex">
-        <button>上传历史</button>
-    </a>
+    <form id="loginForm" name="loginForm" action="/user/login" enctype="application/x-www-form-urlencoded"
+          method="post">
+        <table>
+            <tbody>
+            <tr>
+                <td>用户名</td>
+                <td><input id="username" name="username" type="text" placeholder="请输入用户名"></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input id="password" name="password" type="password" placeholder="请输入密码"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="登录"></td>
+            </tr>
+            </tbody>
+        </table>
 
+    </form>
+    <br/>
+    <br/>
+    <form id="regForm" name="regForm" action="/user/reg" enctype="application/x-www-form-urlencoded" method="post">
+        <table>
+            <tbody>
+            <tr>
+                <td>用户名</td>
+                <td><input id="usernamereg" name="username" type="text" placeholder="请输入用户名"></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input id="passwordreg" name="password" type="password" placeholder="请输入密码"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="注册"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </form>
 
 </center>
 </body>

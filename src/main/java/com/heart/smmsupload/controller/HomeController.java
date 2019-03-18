@@ -11,6 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class HomeController {
 
+    @RequestMapping("/home")
+    public ModelAndView homePage() {
+        return new ModelAndView("home");
+    }
+
     @RequestMapping("/index")
     public ModelAndView indexPage() {
         return new ModelAndView("index");
