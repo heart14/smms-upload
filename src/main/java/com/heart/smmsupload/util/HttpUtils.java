@@ -82,6 +82,14 @@ public class HttpUtils {
             httpURLConnection.setRequestProperty("Connection", "Keep-Alive");
             httpURLConnection.setRequestProperty("Charset", "UTF-8");
             httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36");
+            //httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            //httpURLConnection.setRequestProperty("Content-Length", String.valueOf(param.length()));
+            /*
+                Content-Type为application/json时，param参数形式为json字符串
+                {"key":"value","key":"value"}
+                如果不设置Content-Type为application/json，那在POST传参数的时候，参数该以什么样的形式传过来呢？
+                ?key=value&key=value
+             */
 
             //如果需要传输数据并接受返回数据，需要设置下面两项
             httpURLConnection.setDoInput(true);
