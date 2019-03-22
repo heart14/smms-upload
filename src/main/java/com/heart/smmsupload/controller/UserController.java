@@ -2,6 +2,11 @@ package com.heart.smmsupload.controller;
 
 import com.heart.smmsupload.pojo.SMMSUser;
 import com.heart.smmsupload.service.SMMSUserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,19 +40,24 @@ public class UserController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView userLogin(SMMSUser smmsUser, HttpServletRequest request) {
+
         logger.info("用户登录 : {} / {}", smmsUser.getUsername(), smmsUser.getPassword());
 
         ModelAndView modelAndView = new ModelAndView();
 
-        SMMSUser smmsUser1 = smmsUserService.findSMMSUser(smmsUser);
-        if (smmsUser1 != null) {
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(smmsUser.getUsername(), smmsUser.getPassword());
+
+        try {
+            subject.login(token);
+
             modelAndView.setViewName("home");
             HttpSession session = request.getSession();
-            session.setAttribute("currentUser", smmsUser1);
+            session.setAttribute("SMMSUSER", smmsUser);
             logger.info("登录成功！");
-        } else {
+        } catch (AuthenticationException e) {
             modelAndView.setViewName("index");
-            logger.info("登录失败！");
+            logger.info("登录失败！\n{}", e.getMessage());
         }
         return modelAndView;
     }
@@ -64,10 +74,12 @@ public class UserController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        SMMSUser smmsUser1 = smmsUserService.findSMMSUser(smmsUser);
-        if (smmsUser1 != null) {
+        SMMSUser findSmmsUser = smmsUserService.findSMMSUserByUsername(smmsUser.getUsername());
+        if (findSmmsUser != null) {
             logger.info("注册失败！用户已存在");
         } else {
+            smmsUser.setUserSalt(smmsUser.getUsername() + smmsUser.getPassword());
+            smmsUser.setPassword(String.valueOf(new Md5Hash(new Md5Hash(smmsUser.getPassword(), smmsUser.getUserSalt()))));
             int saveSMMSUser = smmsUserService.saveSMMSUser(smmsUser);
             if (saveSMMSUser == 1) {
                 logger.info("注册成功！");
@@ -79,4 +91,11 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping("/logout")
+    public ModelAndView userLogout() {
+        logger.info("用户登出");
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return new ModelAndView("index");
+    }
 }

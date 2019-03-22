@@ -6,10 +6,30 @@
         <id column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="user_salt" jdbcType="VARCHAR" property="userSalt"/>
+    </resultMap>
+
+    <resultMap id="FullResultMap" type="com.heart.smmsupload.pojo.SMMSUser">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="user_salt" jdbcType="VARCHAR" property="userSalt"/>
+        <collection property="roles" ofType="SMMSRole">
+            <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+            <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+            <result column="role_desc" jdbcType="VARCHAR" property="roleDesc"/>
+        </collection>
+        <collection property="permissions" ofType="SMMSPermission">
+            <id column="permission_id" jdbcType="INTEGER" property="permissionId"/>
+            <result column="permission_name" jdbcType="VARCHAR" property="permissionName"/>
+            <result column="permission_desc" jdbcType="VARCHAR" property="permissionDesc"/>
+            <result column="permission_url" jdbcType="VARCHAR" property="permissionUrl"/>
+            <result column="permission_parent_id" jdbcType="INTEGER" property="permissionParentId"/>
+        </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
-        user_id, username, password
+        user_id, username, password, user_salt
     </sql>
 
     <select id="selectSMMSUserByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -17,6 +37,16 @@
         <include refid="Base_Column_List"/>
         from smms_user
         where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectSMMSUserByUsername" parameterType="java.lang.String" resultMap="FullResultMap">
+        select *
+        from smms_user u
+        left join smms_user_role ur on ur.user_id = u.user_id
+        left join smms_role r on r.role_id = ur.role_id
+        left join smms_role_permission rp on rp.role_id = r.role_id
+        left join smms_permission p on p.permission_id = rp.permission_id
+        where username = #{username,jdbcType=VARCHAR}
     </select>
 
     <select id="selectSMMSUser" parameterType="com.heart.smmsupload.pojo.SMMSUser" resultMap="BaseResultMap">
@@ -44,6 +74,9 @@
             <if test="password != null">
                 password,
             </if>
+            <if test="userSalt != null">
+                user_salt,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -54,6 +87,9 @@
             </if>
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="userSalt != null">
+                #{userSalt,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -66,6 +102,9 @@
             </if>
             <if test="password != null">
                 password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="userSalt != null">
+                user_salt = #{userSalt,jdbcType=VARCHAR},
             </if>
         </set>
         where user_id = #{userId,jdbcType=INTEGER}

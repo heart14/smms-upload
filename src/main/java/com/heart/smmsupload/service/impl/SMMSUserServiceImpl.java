@@ -41,4 +41,10 @@ public class SMMSUserServiceImpl implements SMMSUserService {
     public SMMSUser findSMMSUserByPrimaryKey(Integer userId) {
         return smmsUserDao.selectSMMSUserByPrimaryKey(userId);
     }
+
+    @Override
+    public SMMSUser findSMMSUserByUsername(String username) {
+        return smmsUserDao.selectSMMSUserByUsername(username);
+    }
+
 }

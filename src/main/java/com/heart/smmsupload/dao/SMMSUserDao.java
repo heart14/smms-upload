@@ -14,6 +14,8 @@ public interface SMMSUserDao {
 
     SMMSUser selectSMMSUserByPrimaryKey(Integer userId);
 
+    SMMSUser selectSMMSUserByUsername(String username);
+
     SMMSUser selectSMMSUser(SMMSUser smmsUser);
 
 }

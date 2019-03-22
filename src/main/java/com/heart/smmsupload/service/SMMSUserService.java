@@ -17,5 +17,7 @@ public interface SMMSUserService {
 
     SMMSUser findSMMSUserByPrimaryKey(Integer userId);
 
+    SMMSUser findSMMSUserByUsername(String username);
+
     SMMSUser findSMMSUser(SMMSUser smmsUser);
 }
