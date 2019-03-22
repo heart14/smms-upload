@@ -35,7 +35,6 @@ public class ShiroConfig {
      */
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
-        logger.info("shiro filter ↓↓↓");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
@@ -90,6 +89,8 @@ public class ShiroConfig {
     public ShiroRealm shiroRealm() {
         ShiroRealm shiroRealm = new ShiroRealm();
         shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        shiroRealm.setAuthenticationCachingEnabled(true);
+        shiroRealm.setAuthorizationCachingEnabled(true);
         return shiroRealm;
     }
 
