@@ -9,7 +9,6 @@ import com.heart.smmsupload.service.SMMSImageService;
 import com.heart.smmsupload.service.SMMSIpService;
 import com.heart.smmsupload.util.HttpUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,7 +173,7 @@ public class ImgController {
      *
      * @return
      */
-    @RequiresPermissions({"img:select","img:delete"})//需要同时拥有img:select和img:delete权限才可以访问
+    @RequiresPermissions({"img:select", "img:delete"})//需要同时拥有img:select和img:delete权限才可以访问
     @RequestMapping("/history")
     public String getUploadHistory() {
         logger.info("查询历史上传图片");

@@ -29,6 +29,7 @@ public class ShiroConfig {
 
     /**
      * 注入shiro过滤器
+     *
      * @param securityManager
      * @return
      */
@@ -70,6 +71,7 @@ public class ShiroConfig {
 
     /**
      * 注入shiro securityManager
+     *
      * @return
      */
     @Bean
@@ -81,6 +83,7 @@ public class ShiroConfig {
 
     /**
      * 注入shiro 自定义Realm
+     *
      * @return
      */
     @Bean
@@ -93,6 +96,7 @@ public class ShiroConfig {
     /**
      * 注入shiro 凭证匹配器
      * 用于加密
+     *
      * @return
      */
     @Bean
@@ -106,6 +110,7 @@ public class ShiroConfig {
     /**
      * 开启shiro aop注解配置
      * 可在接口上通过注解设置所需角色、权限
+     *
      * @param securityManager
      * @return
      */
@@ -118,6 +123,7 @@ public class ShiroConfig {
 
     /**
      * spring boot中要使用shiro权限注解，除了上面的advisor，还需要下面这个配置
+     *
      * @return
      */
     @Bean
@@ -129,6 +135,7 @@ public class ShiroConfig {
 
     /**
      * spring提供的异常处理方法
+     *
      * @return
      */
     @Bean(name = "simpleMappingExceptionResolver")
