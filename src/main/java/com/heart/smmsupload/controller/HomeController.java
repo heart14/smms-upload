@@ -12,30 +12,34 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class HomeController {
 
-//    @RequestMapping("/home")
-//    public ModelAndView homePage() {
-//        return new ModelAndView("home");
-//    }
+    @RequestMapping("/home")
+    public ModelAndView homePage() {
+        return new ModelAndView("home");
+    }
 
     @RequestMapping("/index")
     public ModelAndView indexPage() {
         return new ModelAndView("index");
     }
 
-//    @RequiresRoles("normal")
-//    @RequestMapping("/uploadindex")
-//    public ModelAndView uploadIndexPage() {
-//        return new ModelAndView("uploadIndex");
-//    }
-//
+    @RequestMapping("/uploadindex")
+    public ModelAndView uploadIndexPage() {
+        return new ModelAndView("uploadIndex");
+    }
+
 //    @RequiresRoles("admin")
 //    @RequestMapping("/historyindex")
 //    public ModelAndView historyIndexPage() {
 //        return new ModelAndView("historyIndex");
 //    }
 
-    @RequestMapping("/403")
-    public ModelAndView unAuthcPage() {
-        return new ModelAndView("403");
-    }
+//    @RequestMapping("/403")
+//    public ModelAndView unAuthcPage() {
+//        return new ModelAndView("403");
+//    }
+//
+//    @RequestMapping("/error")
+//    public ModelAndView errorPage() {
+//        return new ModelAndView("error");
+//    }
 }

@@ -10,9 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @Description:
@@ -58,7 +60,7 @@ public class ShiroConfig {
         /*
             但现在出现的问题是，尽管配置了上面的403页面
             当没有响应权限的用户访问uri时，会直接抛异常，页面返回500，而不是跳转到403页面
-            虽然可以通过手动创建一个类继承什么什么来捕获异常设置页面跳转
+            虽然可以通过spring或者手动创建一个类继承什么什么来捕获异常设置页面跳转
             但想知道的是shiro竟然没有完善这一点吗？
          */
 
@@ -123,5 +125,19 @@ public class ShiroConfig {
         DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
         defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
         return defaultAdvisorAutoProxyCreator;
+    }
+
+    /**
+     * spring提供的异常处理方法
+     * @return
+     */
+    @Bean(name = "simpleMappingExceptionResolver")
+    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+        SimpleMappingExceptionResolver simpleMappingExceptionResolver = new SimpleMappingExceptionResolver();
+        Properties properties = new Properties();
+        properties.setProperty("UnauthorizedException", "/403");
+        simpleMappingExceptionResolver.setExceptionMappings(properties);
+        simpleMappingExceptionResolver.setDefaultErrorView("/error");
+        return simpleMappingExceptionResolver;
     }
 }
