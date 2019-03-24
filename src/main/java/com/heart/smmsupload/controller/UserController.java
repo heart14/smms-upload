@@ -53,7 +53,7 @@ public class UserController {
 
             modelAndView.setViewName("home");
             HttpSession session = request.getSession();
-            session.setAttribute("SMMSUSER", smmsUser);
+            session.setAttribute("SMMSUSER", smmsUserService.findSMMSUserByUsername(smmsUser.getUsername()));
             logger.info("登录成功！");
         } catch (AuthenticationException e) {
             modelAndView.setViewName("index");

@@ -8,7 +8,7 @@ import com.heart.smmsupload.response.SMMSResponse;
 import com.heart.smmsupload.service.SMMSImageService;
 import com.heart.smmsupload.service.SMMSIpService;
 import com.heart.smmsupload.util.HttpUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,11 +169,11 @@ public class ImgController {
     }
 
     /**
-     * 查询所有历史上传图片
+     * 查询所有用户历史上传图片
      *
      * @return
      */
-    @RequiresPermissions({"img:select", "img:delete"})//需要同时拥有img:select和img:delete权限才可以访问
+    @RequiresRoles({"admin"})//需要admin才可以访问
     @RequestMapping("/history")
     public String getUploadHistory() {
         logger.info("查询历史上传图片");
@@ -181,12 +181,12 @@ public class ImgController {
     }
 
     /**
-     * 删除所有历史上传图片
+     * 删除所有用户历史上传图片
      *
      * @param request
      * @return
      */
-    @RequiresPermissions("img:delete")//需要img:delete权限才可以访问
+    @RequiresRoles("admin")//需要admin才可以访问
     @RequestMapping("/clear")
     public String clearUploadHistory(HttpServletRequest request) {
         SMMSUser smmsUser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
@@ -200,4 +200,62 @@ public class ImgController {
         logger.info("成功删除 {} 张图片", editSMMSImageByUserId);
         return HttpUtils.doGet(clearApiUrl);
     }
+
+    /**
+     * 查询当前用户所有历史上传图片
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getUsersAllImage")
+    public SMMSResponse getUsersAllImage(HttpServletRequest request) {
+        logger.info("查询当前用户所有图片");
+        SMMSResponse smmsResponse = new SMMSResponse();
+        SMMSUser smmsUser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
+        logger.info("当前用户 : {}", smmsUser);
+
+        List<SMMSImage> smmsImageListByUserId = smmsImageService.findSMMSImageListByUserId(smmsUser.getUserId());
+        List<Map<String, String>> list = new ArrayList<>();
+        if (smmsImageListByUserId != null && smmsImageListByUserId.size() > 0) {
+            for (SMMSImage smmsImage : smmsImageListByUserId) {
+                Map<String, String> map = new HashMap<>();
+                map.put("imageid", smmsImage.getImageId().toString());
+                map.put("filename", smmsImage.getFilename());
+                map.put("url", smmsImage.getUrl());
+                map.put("delurl", smmsImage.getDeleteUrl());
+                list.add(map);
+            }
+            smmsResponse.setMsg("查询成功，共 " + list.size());
+            smmsResponse.setData(list);
+            return smmsResponse;
+        }
+        smmsResponse.setMsg("查询成功，共 0");
+        smmsResponse.setData(null);
+
+        return smmsResponse;
+    }
+
+    /**
+     * 删除当前用户的所有历史上传图片
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("/removeUsersAllImage")
+    public SMMSResponse removeUsersAllImage(HttpServletRequest request) {
+        logger.info("删除当前用户所有图片");
+        SMMSResponse smmsResponse = new SMMSResponse();
+        SMMSUser smmsUser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
+        logger.info("当前用户 : {}", smmsUser);
+
+        List<SMMSImage> smmsImageListByUserId = smmsImageService.findSMMSImageListByUserId(smmsUser.getUserId());
+        for (SMMSImage smmsImage : smmsImageListByUserId) {
+            HttpUtils.doGet(smmsImage.getDeleteUrl());
+        }
+
+        int editSMMSImageByUserId = smmsImageService.editSMMSImageByUserId(smmsUser.getUserId());
+        smmsResponse.setMsg(editSMMSImageByUserId + " 张图片已删除");
+        return smmsResponse;
+    }
+
 }
