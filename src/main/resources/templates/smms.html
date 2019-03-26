@@ -16,9 +16,11 @@
 
     <!-- Header -->
     <header id="header" th:object="${smmsUser}">
-        <h1><a href="/img/smms"><strong><span th:text="${smmsUser.username}"></span></strong></a></h1>
+        <h1><a href="/img/smms"><span th:text="${smmsUser.username}"></span></a></h1>
         <nav>
             <ul>
+                <li><a href="/home" class="icon fa-info-circle">返回主页</a></li>
+                <li><a href="#upload" class="icon fa-info-circle">上传图片</a></li>
                 <li><a href="#footer" class="icon fa-info-circle">About</a></li>
             </ul>
         </nav>
@@ -81,6 +83,17 @@
             </div>
         </div>
     </footer>
+
+    <upload id="upload" class="panel">
+        <div class="inner">
+            <h1>SM.MS图片上传</h1>
+            <hr>
+            <form id="imgUpload" action="/img/upload" method="POST" enctype="multipart/form-data">
+                <input id="multipartFiles" name="multipartFiles" type="file" multiple><br>
+                <button>上传图片</button>
+            </form>
+        </div>
+    </upload>
 
 </div>
 
