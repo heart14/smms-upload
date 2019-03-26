@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -59,7 +60,7 @@ public class ImgController {
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public SMMSResponse imgUpload(@RequestParam("multipartFiles") MultipartFile[] multipartFiles, HttpServletRequest request) {
-
+        logger.info("↓↓↓↓ 图片上传 ↓↓↓↓");
         SMMSResponse smmsResponse = new SMMSResponse();
         SMMSUser smmsUser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
         if (smmsUser == null) {
@@ -165,6 +166,7 @@ public class ImgController {
             }
         }
         logger.info("清理本地临时文件{}", delete ? "完毕" : "失败");
+        logger.info("↑↑↑↑ 图片上传 ↑↑↑↑");
         return smmsResponse;
     }
 
@@ -176,7 +178,8 @@ public class ImgController {
     @RequiresRoles({"admin"})//需要admin才可以访问
     @RequestMapping("/history")
     public String getUploadHistory() {
-        logger.info("查询历史上传图片");
+        logger.info("↓↓↓↓ 查询所有用户历史上传图片 ↓↓↓↓");
+        logger.info("↑↑↑↑ 查询所有用户历史上传图片 ↑↑↑↑");
         return HttpUtils.doGet(historyApiUrl);
     }
 
@@ -188,17 +191,31 @@ public class ImgController {
      */
     @RequiresRoles("admin")//需要admin才可以访问
     @RequestMapping("/clear")
-    public String clearUploadHistory(HttpServletRequest request) {
+    public SMMSResponse clearUploadHistory(HttpServletRequest request) {
+        logger.info("↓↓↓↓ 删除所有用户历史上传图片 ↓↓↓↓");
+        SMMSResponse smmsResponse = new SMMSResponse();
+
         SMMSUser smmsUser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
         if (smmsUser == null) {
             logger.info("用户登录信息已过期！");
-            return "用户登录信息已过期！请重新登录";
+            smmsResponse.setMsg("用户登录信息已过期！请重新登录");
+            return smmsResponse;
         }
-        logger.info("当前用户 : {}", smmsUser);
-        logger.info("清除历史上传图片，用户id : {}", smmsUser.getUserId());
-        int editSMMSImageByUserId = smmsImageService.editSMMSImageByUserId(smmsUser.getUserId());
-        logger.info("成功删除 {} 张图片", editSMMSImageByUserId);
-        return HttpUtils.doGet(clearApiUrl);
+        logger.info("当前用户id :{}", smmsUser.getUserId());
+
+        //获取所有图片 请求删除图片api
+        List<SMMSImage> allSMMSImage = smmsImageService.findAllSMMSImage();
+        for (SMMSImage smmsImage : allSMMSImage) {
+            logger.info("删除 :{}", smmsImage.getDeleteUrl());
+            HttpUtils.doGet(smmsImage.getDeleteUrl());
+        }
+        //更新数据库所有图片状态为2
+        int editAllSMMSImageStatus = smmsImageService.editAllSMMSImageStatus();
+        logger.info("数据库删除数量 :{} ,API删除数量 :{}", editAllSMMSImageStatus, allSMMSImage.size());
+
+        smmsResponse.setMsg("数据库删除数量 " + editAllSMMSImageStatus + " ,API删除数量 " + allSMMSImage.size());
+        logger.info("↑↑↑↑ 删除所有用户历史上传图片 ↑↑↑↑");
+        return smmsResponse;
     }
 
     /**
@@ -243,19 +260,38 @@ public class ImgController {
      */
     @RequestMapping("/removeUsersAllImage")
     public SMMSResponse removeUsersAllImage(HttpServletRequest request) {
-        logger.info("删除当前用户所有图片");
+        logger.info("↓↓↓↓ 删除当前用户所有图片 ↓↓↓↓");
         SMMSResponse smmsResponse = new SMMSResponse();
         SMMSUser smmsUser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
-        logger.info("当前用户 : {}", smmsUser);
+        logger.info("当前用户 :{}", smmsUser);
 
         List<SMMSImage> smmsImageListByUserId = smmsImageService.findSMMSImageListByUserId(smmsUser.getUserId());
         for (SMMSImage smmsImage : smmsImageListByUserId) {
+            logger.info("删除 :{}", smmsImage.getDeleteUrl());
             HttpUtils.doGet(smmsImage.getDeleteUrl());
         }
 
         int editSMMSImageByUserId = smmsImageService.editSMMSImageByUserId(smmsUser.getUserId());
         smmsResponse.setMsg(editSMMSImageByUserId + " 张图片已删除");
+        logger.info("↑↑↑↑ 删除当前用户所有图片 ↑↑↑↑");
         return smmsResponse;
     }
 
+
+
+    @RequestMapping("/smms")
+    public ModelAndView smmsPage(HttpServletRequest request) {
+        logger.info("↓↓↓↓ 查询当前用户所有图片 ↓↓↓↓");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("smms");
+
+        SMMSUser smmsuser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
+        List<SMMSImage> smmsImageListByUserId = smmsImageService.findSMMSImageListByUserId(smmsuser.getUserId());
+        logger.info("图片共 :{} ,当前用户 :{}", smmsImageListByUserId.size(), smmsuser);
+
+        modelAndView.addObject("smmsUser", smmsuser);
+        modelAndView.addObject("smmsImageList", smmsImageListByUserId);
+        logger.info("↑↑↑↑ 查询当前用户所有图片 ↑↑↑↑");
+        return modelAndView;
+    }
 }

@@ -48,9 +48,10 @@ public class ShiroConfig {
             在接口上通过注解来设定访问uri所需要的角色、权限
          */
 
-        filterChainDefinitionMap.put("/js/**", "anon");//访问静态资源不需要身份验证
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/image/**", "anon");
+        filterChainDefinitionMap.put("/static/**", "anon");//访问静态资源不需要身份验证
+//        filterChainDefinitionMap.put("/js/**", "anon");//访问静态资源不需要身份验证
+//        filterChainDefinitionMap.put("/css/**", "anon");
+//        filterChainDefinitionMap.put("/image/**", "anon");
         filterChainDefinitionMap.put("/user/login", "anon");//用户登录的请求接口不需要身份验证
         filterChainDefinitionMap.put("/user/reg", "anon");//用户注册的请求接口不需要身份验证
         filterChainDefinitionMap.put("/user/logout", "anon");//用户登出的请求接口不需要身份验证

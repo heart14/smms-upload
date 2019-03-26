@@ -35,6 +35,16 @@ public class SMMSImageServiceImpl implements SMMSImageService {
     }
 
     @Override
+    public List<SMMSImage> findAllSMMSImage() {
+        return smmsImageDao.selectAllSMMSImage();
+    }
+
+    @Override
+    public int editAllSMMSImageStatus() {
+        return smmsImageDao.updateAllSMMSImageStatus();
+    }
+
+    @Override
     public int editSMMSImageByUserId(Integer userId) {
         return smmsImageDao.updateSMMSImageByUserId(userId);
     }

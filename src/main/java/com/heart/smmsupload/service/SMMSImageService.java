@@ -28,6 +28,13 @@ public interface SMMSImageService {
     int removeSMMSImageByPrimaryKey(Integer imageId);
 
     /**
+     * 修改所有图片信息
+     * 魔法删除所有图片
+     * @return
+     */
+    int editAllSMMSImageStatus();
+
+    /**
      * 根据主键更新图片信息
      *
      * @param smmsImage
@@ -42,6 +49,13 @@ public interface SMMSImageService {
      * @return
      */
     int editSMMSImageByUserId(Integer userId);
+
+    /**
+     * 根据所有用户已上传图片
+     *
+     * @return
+     */
+    List<SMMSImage> findAllSMMSImage();
 
     /**
      * 根据主键查询图片

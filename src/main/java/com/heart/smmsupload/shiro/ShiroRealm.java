@@ -41,7 +41,7 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        logger.info("↓↓↓  ShiroRealm.doGetAuthorizationInfo(principals)");
+        logger.info("↓↓↓↓ ShiroRealm.doGetAuthorizationInfo(principals) ↓↓↓↓");
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
         String username = (String) principals.getPrimaryPrincipal();
@@ -65,6 +65,7 @@ public class ShiroRealm extends AuthorizingRealm {
             simpleAuthorizationInfo.setStringPermissions(new HashSet<>(permissionsList));
         }
 
+        logger.info("↑↑↑↑ ShiroRealm.doGetAuthorizationInfo(principals) ↑↑↑↑");
         return simpleAuthorizationInfo;
     }
 
@@ -77,7 +78,7 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        logger.info("↓↓↓  ShiroRealm.doGetAuthenticationInfo(token)");
+        logger.info("↓↓↓↓ ShiroRealm.doGetAuthenticationInfo(token) ↓↓↓↓");
 
         //获取用户输入的账号
         String username = (String) token.getPrincipal();
@@ -94,6 +95,8 @@ public class ShiroRealm extends AuthorizingRealm {
                 smmsUserByUsername.getPassword(),
                 ByteSource.Util.bytes(smmsUserByUsername.getUserSalt()),
                 getName());
+
+        logger.info("↑↑↑↑ ShiroRealm.doGetAuthenticationInfo(token) ↑↑↑↑");
         return authenticationInfo;
     }
 }

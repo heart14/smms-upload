@@ -12,11 +12,15 @@ public interface SMMSImageDao {
 
     int deleteSMMSImageByPrimaryKey(Integer imageId);
 
+    int updateAllSMMSImageStatus();
+
     int updateSMMSImageByPrimaryKey(SMMSImage smmsImage);
 
     int updateSMMSImageByUserId(Integer userId);
 
     SMMSImage selectSMMSImageByPrimaryKey(Integer imageId);
+
+    List<SMMSImage> selectAllSMMSImage();
 
     List<SMMSImage> selectSMMSImageListByUserId(Integer userId);
 

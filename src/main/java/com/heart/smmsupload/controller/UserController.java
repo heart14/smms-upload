@@ -91,6 +91,11 @@ public class UserController {
         return modelAndView;
     }
 
+    /**
+     * 用户登出
+     *
+     * @return
+     */
     @RequestMapping("/logout")
     public ModelAndView userLogout() {
         logger.info("用户登出");
