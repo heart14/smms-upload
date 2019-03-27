@@ -49,14 +49,16 @@ public class ShiroConfig {
          */
 
         filterChainDefinitionMap.put("/static/**", "anon");//访问静态资源不需要身份验证
-//        filterChainDefinitionMap.put("/js/**", "anon");//访问静态资源不需要身份验证
-//        filterChainDefinitionMap.put("/css/**", "anon");
-//        filterChainDefinitionMap.put("/image/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");//访问静态资源不需要身份验证
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/sass/**", "anon");
+        filterChainDefinitionMap.put("/fonts/**", "anon");
+        filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/user/login", "anon");//用户登录的请求接口不需要身份验证
         filterChainDefinitionMap.put("/user/reg", "anon");//用户注册的请求接口不需要身份验证
         filterChainDefinitionMap.put("/user/logout", "anon");//用户登出的请求接口不需要身份验证
         filterChainDefinitionMap.put("/**", "authc");//其它所有请求都需要身份验证
-        shiroFilterFactoryBean.setLoginUrl("/index");//指定登录页面，不设置则默认寻找login.jsp
+        shiroFilterFactoryBean.setLoginUrl("/login");//指定登录页面，不设置则默认寻找login.jsp
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");//指定未授权页面
         /*
             但现在出现的问题是，尽管配置了上面的403页面
