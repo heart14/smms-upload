@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * @Description:
+ * @Description:Shiro配置
  * @Author: Heart
  * @Date: 2019/3/21 10:06
  */

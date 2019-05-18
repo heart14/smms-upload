@@ -45,7 +45,6 @@ public class UserController {
     public SMMSResponse userLogin(@RequestBody SMMSUser smmsUser, HttpServletRequest request) {
 
         logger.info("用户登录 : {} / {}", smmsUser.getUsername(), smmsUser.getPassword());
-//        ModelAndView modelAndView = new ModelAndView();
         SMMSResponse smmsResponse = new SMMSResponse();
 
         Subject subject = SecurityUtils.getSubject();
@@ -53,7 +52,6 @@ public class UserController {
 
         try {
             subject.login(token);
-//            modelAndView.setViewName("home");
             HttpSession session = request.getSession();
             session.setAttribute("SMMSUSER", smmsUserService.findSMMSUserByUsername(smmsUser.getUsername()));
             logger.info("登录成功！");
@@ -61,7 +59,6 @@ public class UserController {
             smmsResponse.setMsg("登录成功！");
             return smmsResponse;
         } catch (AuthenticationException e) {
-//            modelAndView.setViewName("index");
             logger.info("登录失败！\n{}", e.getMessage());
         }
 
@@ -80,7 +77,6 @@ public class UserController {
     public SMMSResponse userReg(@RequestBody SMMSUser smmsUser) {
         logger.info("用户注册 : {} / {}", smmsUser.getUsername(), smmsUser.getPassword());
 
-//        ModelAndView modelAndView = new ModelAndView();
         SMMSResponse smmsResponse = new SMMSResponse();
         smmsResponse.setCode(SMMSConstants.ERR_CODE_FAIL);
         smmsResponse.setMsg("注册失败！");
@@ -99,7 +95,6 @@ public class UserController {
                 smmsResponse.setMsg("注册成功！");
             }
         }
-//        modelAndView.setViewName("index");
         return smmsResponse;
     }
 

@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description:自定义ShiroRealm
  * @Author: Heart
  * @Date: 2019/3/21 10:07
  */

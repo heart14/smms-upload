@@ -52,6 +52,28 @@ public class ImgController {
     @Autowired
     private SMMSIpService smmsIpService;
 
+
+    /**
+     * 用户首页 展示用户所有图片
+     * @param request
+     * @return
+     */
+    @RequestMapping("/smms")
+    public ModelAndView smmsPage(HttpServletRequest request) {
+        logger.info("↓↓↓↓ 查询当前用户所有图片 ↓↓↓↓");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("index");
+
+        SMMSUser smmsuser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
+        List<SMMSImage> smmsImageListByUserId = smmsImageService.findSMMSImageListByUserId(smmsuser.getUserId());
+        logger.info("图片共 :{} ,当前用户 :{}", smmsImageListByUserId.size(), smmsuser);
+
+        modelAndView.addObject("smmsUser", smmsuser);
+        modelAndView.addObject("smmsImageList", smmsImageListByUserId);
+        logger.info("↑↑↑↑ 查询当前用户所有图片 ↑↑↑↑");
+        return modelAndView;
+    }
+
     /**
      * 图片上传 支持批量上传
      *
@@ -171,7 +193,7 @@ public class ImgController {
     }
 
     /**
-     * 查询所有用户历史上传图片
+     * 查询所有用户历史上传图片（过时）
      *
      * @return
      */
@@ -186,7 +208,7 @@ public class ImgController {
     }
 
     /**
-     * 删除所有用户历史上传图片
+     * 删除所有用户历史上传图片（过时）
      *
      * @param request
      * @return
@@ -277,22 +299,5 @@ public class ImgController {
         smmsResponse.setMsg(editSMMSImageByUserId + " 张图片已删除");
         logger.info("↑↑↑↑ 删除当前用户所有图片 ↑↑↑↑");
         return smmsResponse;
-    }
-
-
-    @RequestMapping("/smms")
-    public ModelAndView smmsPage(HttpServletRequest request) {
-        logger.info("↓↓↓↓ 查询当前用户所有图片 ↓↓↓↓");
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("smms");
-
-        SMMSUser smmsuser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
-        List<SMMSImage> smmsImageListByUserId = smmsImageService.findSMMSImageListByUserId(smmsuser.getUserId());
-        logger.info("图片共 :{} ,当前用户 :{}", smmsImageListByUserId.size(), smmsuser);
-
-        modelAndView.addObject("smmsUser", smmsuser);
-        modelAndView.addObject("smmsImageList", smmsImageListByUserId);
-        logger.info("↑↑↑↑ 查询当前用户所有图片 ↑↑↑↑");
-        return modelAndView;
     }
 }

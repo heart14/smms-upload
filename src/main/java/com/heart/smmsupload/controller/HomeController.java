@@ -1,12 +1,8 @@
 package com.heart.smmsupload.controller;
 
-import com.heart.smmsupload.pojo.SMMSUser;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 页面控制器
@@ -15,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class HomeController {
 
-    @RequestMapping("/home")
-    public ModelAndView homePage() {
-        return new ModelAndView("home");
-    }
+//    @RequestMapping("/home")
+//    public ModelAndView homePage() {
+//        return new ModelAndView("home");
+//    }
 
     @RequestMapping("/login")
     public ModelAndView loginPage() {
