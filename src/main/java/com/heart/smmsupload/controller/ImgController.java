@@ -177,10 +177,12 @@ public class ImgController {
      */
     @RequiresRoles({"admin"})//需要admin才可以访问
     @RequestMapping("/history")
-    public String getUploadHistory() {
+    public List<SMMSImage> getUploadHistory() {
         logger.info("↓↓↓↓ 查询所有用户历史上传图片 ↓↓↓↓");
+        List<SMMSImage> allSMMSImage = smmsImageService.findAllSMMSImage();
         logger.info("↑↑↑↑ 查询所有用户历史上传图片 ↑↑↑↑");
-        return HttpUtils.doGet(historyApiUrl);
+//        return HttpUtils.doGet(historyApiUrl);
+        return allSMMSImage;
     }
 
     /**
