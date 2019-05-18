@@ -32,7 +32,7 @@
             <a th:href="${smmsImage.getUrl()}" class="image">
                 <img th:src="${smmsImage.getUrl()}" th:alt="${smmsImage.getFilename()}"/></a>
             <h2 th:text="${smmsImage.getFilename()}"></h2>
-            <p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
+            <!--<p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>-->
         </article>
     </div>
 
@@ -44,56 +44,40 @@
                     <h2>SM.MS图床 图片管理工具</h2>
                     <p>可视化管理用户在SM.MS图床中的图片信息</p>
                 </section>
-                <section>
-                    <h2>Follow me on ...</h2>
-                    <ul class="icons">
-                        <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-                        <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-                        <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-                        <li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-                        <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-                        <li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
-                    </ul>
-                </section>
                 <p class="copyright">
                     &copy; 李文飞. Design: <a href="http://html5up.net">HTML5 UP</a>.
                 </p>
             </div>
             <div>
                 <section>
-                    <h2>Get in touch</h2>
-                    <form method="post" action="#">
-                        <div class="fields">
-                            <div class="field half">
-                                <input type="text" name="name" id="name" placeholder="Name"/>
-                            </div>
-                            <div class="field half">
-                                <input type="text" name="email" id="email" placeholder="Email"/>
-                            </div>
-                            <div class="field">
-                                <textarea name="message" id="message" rows="4" placeholder="Message"></textarea>
-                            </div>
-                        </div>
-                        <ul class="actions">
-                            <li><input type="submit" value="Send" class="primary"/></li>
-                            <li><input type="reset" value="Reset"/></li>
-                        </ul>
-                    </form>
+                    <h2>Follow me on ...</h2>
+                    <ul class="icons">
+                        <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                        <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                        <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                        <li><a href="https://github.com/heart14" class="icon fa-github"><span class="label">GitHub</span></a></li>
+                        <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+                        <li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+                    </ul>
                 </section>
             </div>
         </div>
     </footer>
 
-    <upload id="upload" class="panel">
+    <footer id="upload" class="panel">
         <div class="inner">
-            <h1>SM.MS图片上传</h1>
+            <section>
+                <h2>SM.MS图片上传</h2>
+            </section>
             <hr>
-            <form id="imgUpload" action="/img/upload" method="POST" enctype="multipart/form-data">
-                <input id="multipartFiles" name="multipartFiles" type="file" multiple><br>
-                <button>上传图片</button>
-            </form>
+            <section>
+                <form id="imgUpload" action="/img/upload" method="POST" enctype="multipart/form-data">
+                    <input id="multipartFiles" name="multipartFiles" type="file" multiple>
+                    <button>上传图片</button>
+                </form>
+            </section>
         </div>
-    </upload>
+    </footer>
 
 </div>
 
@@ -104,6 +88,5 @@
 <script th:src="@{/js/breakpoints.min.js}"></script>
 <script th:src="@{/js/util.js}"></script>
 <script th:src="@{/js/main.js}"></script>
-
 </body>
 </html>

@@ -10,9 +10,20 @@ import java.util.Map;
  */
 public class SMMSResponse {
 
+    private String code;
+
     private String msg;
 
-    private List<Map<String, String>> data;
+    private String data;
+
+    public String getCode() {
+        return code;
+    }
+
+    public SMMSResponse setCode(String code) {
+        this.code = code;
+        return this;
+    }
 
     public String getMsg() {
         return msg;
@@ -23,11 +34,11 @@ public class SMMSResponse {
         return this;
     }
 
-    public List<Map<String, String>> getData() {
+    public String getData() {
         return data;
     }
 
-    public SMMSResponse setData(List<Map<String, String>> data) {
+    public SMMSResponse setData(String data) {
         this.data = data;
         return this;
     }

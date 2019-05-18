@@ -59,14 +59,14 @@ public class ImgController {
      * @return
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public SMMSResponse imgUpload(@RequestParam("multipartFiles") MultipartFile[] multipartFiles, HttpServletRequest request) {
+    public ModelAndView imgUpload(@RequestParam("multipartFiles") MultipartFile[] multipartFiles, HttpServletRequest request) {
         logger.info("↓↓↓↓ 图片上传 ↓↓↓↓");
         SMMSResponse smmsResponse = new SMMSResponse();
         SMMSUser smmsUser = (SMMSUser) request.getSession().getAttribute("SMMSUSER");
         if (smmsUser == null) {
             logger.info("用户未登录！");
             smmsResponse.setMsg("用户未登录！");
-            return smmsResponse;
+            return new ModelAndView("login");
         }
         logger.info("当前用户 : {}", smmsUser);
         logger.info("开始进行图片上传");
@@ -149,7 +149,7 @@ public class ImgController {
             data.add(map);
         }
         smmsResponse.setMsg("图片上传完毕， 共" + list.size() + "， 失败" + failNum);
-        smmsResponse.setData(data);
+        smmsResponse.setData(data.toString());
 
         SMMSIp smmsIp = new SMMSIp();
         smmsIp.setUserId(smmsUser.getUserId());
@@ -167,7 +167,7 @@ public class ImgController {
         }
         logger.info("清理本地临时文件{}", delete ? "完毕" : "失败");
         logger.info("↑↑↑↑ 图片上传 ↑↑↑↑");
-        return smmsResponse;
+        return smmsPage(request);
     }
 
     /**
@@ -243,7 +243,7 @@ public class ImgController {
                 list.add(map);
             }
             smmsResponse.setMsg("查询成功，共 " + list.size());
-            smmsResponse.setData(list);
+            smmsResponse.setData(list.toString());
             return smmsResponse;
         }
         smmsResponse.setMsg("查询成功，共 0");

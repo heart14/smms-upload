@@ -1,6 +1,7 @@
 package com.heart.smmsupload.controller;
 
 import com.heart.smmsupload.pojo.SMMSUser;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,15 +20,20 @@ public class HomeController {
         return new ModelAndView("home");
     }
 
-    @RequestMapping("/index")
-    public ModelAndView indexPage() {
-        return new ModelAndView("index");
+    @RequestMapping("/login")
+    public ModelAndView loginPage() {
+        return new ModelAndView("login");
     }
 
-    @RequestMapping("/uploadindex")
-    public ModelAndView uploadIndexPage() {
-        return new ModelAndView("uploadIndex");
-    }
+//    @RequestMapping("/index")
+//    public ModelAndView indexPage() {
+//        return new ModelAndView("index");
+//    }
+
+//    @RequestMapping("/uploadindex")
+//    public ModelAndView uploadIndexPage() {
+//        return new ModelAndView("uploadIndex");
+//    }
 
 //    @RequiresRoles("admin")
 //    @RequestMapping("/historyindex")
